@@ -822,7 +822,7 @@ function App() {
 
             <div className="header-text">
               <h1>41 Contábil - Conciliador Bancário</h1>
-              <p>Sistema de análise e conciliação bancária</p>
+              <p>ConBank</p>
             </div>
 
             <button
