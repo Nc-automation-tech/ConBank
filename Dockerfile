@@ -1,24 +1,25 @@
 # ============================================================================
-# Dockerfile CORRIGIDO - Instala devDependencies para build
+# Dockerfile DEFINITIVO - Sem NODE_ENV=production durante build
 # ============================================================================
 
 FROM node:18-alpine AS frontend-build
 
 WORKDIR /app
 
-ENV NODE_ENV=production
+# NÃO definir NODE_ENV=production aqui!
+# NODE_ENV=production faz npm ignorar devDependencies
 ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 # Copiar package files
 COPY frontend/package.json frontend/package-lock.json* ./
 
-# CORREÇÃO: Instalar TODAS as dependências (incluindo dev)
-RUN npm ci || npm install
+# Instalar TODAS as dependências (dev + prod)
+RUN npm ci --include=dev || npm install
 
 # Copiar código
 COPY frontend/ ./
 
-# Build
+# Build (agora tsc vai estar disponível)
 RUN npm run build
 
 # Verificar
