@@ -28,6 +28,8 @@ from consolidador import (
 
 FRONT_DIR = Path(__file__).resolve().parent / "frontend"
 
+app = FastAPI()
+
 app.mount(
     "/assets", 
     StaticFiles(directory=str(FRONT_DIR / "assets"), check_dir=False),
