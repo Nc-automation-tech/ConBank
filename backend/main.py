@@ -28,11 +28,18 @@ from consolidador import (
 
 FRONT_DIR = Path(__file__).resolve().parent / "frontend"
 
-app.mount("/assets", StaticFiles(directory=FRONT_DIR / "assets"), name="assets")
+app.mount(
+    "/assets", 
+    StaticFiles(directory=str(FRONT_DIR / "assets"), check_dir=False),
+    name="assets",
+)
 
 @app.get("/")
 async def spa_index():
-    return FileResponse(FRONT_DIR / "index.html")
+    index = FRONT_DIR / "index.html"
+    if index.exists():
+        return FileResponse(index)
+    return {"message": "Frontend não encontrado"}
 
 # Criar aplicação
 app = FastAPI(
